@@ -5,6 +5,10 @@
 ;; ========== FONT ==========
 ;; (global-visual-line-mode t)
 ;; (set-default-font "DejaVu Sans Mono Bold")
+
+
+
+
 (setq-default indent-line-function 4)
 (setq-default tab-width 4)
 (setq-default c-basic-offset 4)
@@ -108,6 +112,12 @@
 
 ;; ============== WEB ===============
 (require 'web-mode)
+
+;; Fix for fci and web-mode conflict
+(add-hook 'after-change-major-mode-hook
+            (lambda () (if (string= major-mode "web-mode")
+						   (turn-off-fci-mode) (turn-on-fci-mode))))
+
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
@@ -116,6 +126,7 @@
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+
 (defun my-web-mode-hook ()
   "Hooks for Web mode."
 	(setq web-mode-markup-indent-offset 2)
